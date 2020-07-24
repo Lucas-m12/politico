@@ -6,7 +6,7 @@ exports.up = (knex) => knex.schema.createTable('proposed_opinion', (table) => {
   table.timestamps(true, true);
   table.integer('status').defaultTo(1);
 
-  table.foreign('id_proposed').references('id').inTable('proposed');
+  table.foreign('id_proposed').references('id').inTable('proposal');
   table.foreign('id_user').references('id').inTable('users');
 });
 
