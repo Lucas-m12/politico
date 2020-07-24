@@ -2,7 +2,7 @@ exports.up = (knex) => knex.schema.createTable('users', (table) => {
   table.string('id').notNullable().primary();
   table.string('name').notNullable();
   table.string('surname').notNullable();
-  table.string('phone').notNullable();
+  table.integer('phone').notNullable();
   table.string('password').notNullable();
   table.boolean('admin').notNullable().defaultTo(false);
   table.timestamps(true, true);
