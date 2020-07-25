@@ -1,4 +1,5 @@
 const validationUser = require('../../validations/users');
+const validationUserUpdate = require('../../validations/userUpdate');
 
 exports.create = async (req, res, next) => {
   try {
@@ -13,11 +14,21 @@ exports.create = async (req, res, next) => {
 };
 
 exports.update = async (req, res, next) => {
-  const { status } = req.body;
+  try {
+    await validationUserUpdate.validateAsync(req.body);
 
-  if (!status || status > 3 || status < 0) {
-    return res.status(400).json({ error: 'status not exist' });
+    return next();
+  } catch (error) {
+    return res.status(400).json({ error: error.message });
   }
+};
+
+exports.auth = async (req, res, next) => {
+  const { phone, password } = req.body;
+
+  if (!phone.trim()) return res.status(400).json({ error: 'phone not informed' });
+
+  if (!password.trim()) return res.status(400).json({ error: 'password not informed' });
 
   return next();
 };

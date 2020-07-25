@@ -1,5 +1,11 @@
 const db = require('../../database');
 
+const get = async (filterUser) => {
+  const [user] = await db('users').select('*').where(filterUser).first();
+
+  return user;
+};
+
 const create = async (userData) => {
   const [user] = await db('users').insert(userData).returning('*');
 
@@ -7,7 +13,7 @@ const create = async (userData) => {
 };
 
 const update = async (userData) => {
-  await db('users').update({ status: userData.status });
+  await db('users').update(userData);
 };
 
-module.exports = { create, update };
+module.exports = { get, create, update };
