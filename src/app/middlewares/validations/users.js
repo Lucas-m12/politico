@@ -1,6 +1,6 @@
 const validationUser = require('../../validations/users');
 
-module.exports = async (req, res, next) => {
+exports.create = async (req, res, next) => {
   try {
     await validationUser.validateAsync(req.body);
 
@@ -10,4 +10,14 @@ module.exports = async (req, res, next) => {
   } catch (error) {
     return res.status(400).json({ error: error.message });
   }
+};
+
+exports.update = async (req, res, next) => {
+  const { status } = req.body;
+
+  if (!status || status > 3 || status < 0) {
+    return res.status(400).json({ error: 'status not exist' });
+  }
+
+  return next();
 };

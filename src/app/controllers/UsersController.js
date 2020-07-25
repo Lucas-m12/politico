@@ -20,4 +20,16 @@ const create = async (req, res) => {
   }
 };
 
-module.exports = { create };
+const update = async (req, res) => {
+  const { status } = req.body;
+
+  try {
+    await UsersModel.update({ status });
+
+    return res.sendStatus(204);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = { create, update };

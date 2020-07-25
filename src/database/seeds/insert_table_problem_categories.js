@@ -1,7 +1,7 @@
 exports.seed = async (knex) => {
-  await knex('problem_category').del();
+  await knex('problem_categories').del();
 
-  return knex('problem_category').insert([
+  return knex('problem_categories').insert([
     { category: 'Burocracia' },
     { category: 'Drogas' },
     { category: 'Educação' },
