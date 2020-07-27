@@ -3,6 +3,7 @@ const { Router } = require('express');
 const UsersController = require('./app/controllers/UsersController');
 const AuthController = require('./app/controllers/AuthController');
 const ProposalController = require('./app/controllers/ProposalController');
+const ContactController = require('./app/controllers/ContactController');
 
 const validationUser = require('./app/middlewares/validations/users');
 const validationProposal = require('./app/middlewares/validations/proposal');
@@ -21,6 +22,10 @@ routes.get('/', (req, res) => res.json({ ok: true }))
   .post('/auth', validationUser.auth, AuthController.auth)
 
   // Routes for proposal
-  .post('/proposal', authMiddleware, adminMiddleware, validationProposal, ProposalController.create);
+  .post('/proposal', authMiddleware, adminMiddleware, validationProposal, ProposalController.create)
+
+  // Routes for contacts
+  .get('/contacts', authMiddleware, adminMiddleware, ContactController.index)
+  .post('/contacts', authMiddleware, ContactController.create);
 
 module.exports = routes;
