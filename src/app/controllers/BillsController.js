@@ -1,9 +1,9 @@
 const db = require('../../database');
 
 const create = (req, res) => {
-    console.log(req.file)
-    
-    return res.json({ funcio: "nou" });
-}
+  console.log(req.file);
 
-module.exports = { create }
+  return res.json({ funcio: 'nou' });
+};
+
+module.exports = { create };

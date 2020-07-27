@@ -1,7 +1,7 @@
 const db = require('../../database');
 
 const get = async (filterUser) => {
-  const [user] = await db('users').select('*').where(filterUser).first();
+  const user = await db('users').select('*').where(filterUser).first();
 
   return user;
 };

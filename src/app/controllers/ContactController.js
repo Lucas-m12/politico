@@ -2,36 +2,29 @@ const db = require('../../database');
 
 const ContactModel = require('../models/ContactModel');
 
-const generateTokenJWT = require('../utils/generateTokenJWT');
+const create = async (req, res) => {
+  const { message } = req.body;
+  const { userId } = req;
 
-const create = async(req, res) => {
+  const contactData = { message, id_user: userId };
 
-    const { message } = req.body;
-    const id_user = req.headers.authorization;
+  try {
+    const contact = await ContactModel.create(contactData);
 
-    const contactData = { message, id_user };
-
-    try {
-        const contact = await ContactModel.create(contactData);
-
-        const token = generateTokenJWT({ id: contact.id });
-
-        return res.status(201).json({ contact, token });
-
-    } catch (error) {
-        return res.status(500).json({ error: error.message });
-    }
-
+    return res.status(201).json(contact);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
 };
 
-const get = async(req, res) => {
-    const contacts = await db('contacts')
-    .join('users', 'users.id', '=', 'contacts.id_user')
-    .select([
-        'contacts.*',
-        'users.phone'
-    ]);
-    return res.json(contacts);
-}
+const index = async (req, res) => {
+  try {
+    const contacts = await ContactModel.getAll();
 
-module.exports = { create, get }
+    return res.json(contacts);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = { create, index };
