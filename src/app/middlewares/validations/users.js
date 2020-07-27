@@ -26,9 +26,9 @@ exports.update = async (req, res, next) => {
 exports.auth = async (req, res, next) => {
   const { phone, password } = req.body;
 
-  if (!phone.trim()) return res.status(400).json({ error: 'phone not informed' });
+  if (!phone) return res.status(400).json({ error: 'phone not informed' });
 
-  if (!password.trim()) return res.status(400).json({ error: 'password not informed' });
+  if (!password) return res.status(400).json({ error: 'password not informed' });
 
   return next();
 };
