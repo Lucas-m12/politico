@@ -26,12 +26,13 @@ routes.get('/', (req, res) => res.json({ ok: true }))
 
   // Routes for proposal
   .post('/proposal', authMiddleware, adminMiddleware, validationProposal, ProposalController.create)
-
+  .get('/proposal', authMiddleware, ProposalController.index)
+  .get('/proposal/:id', authMiddleware, ProposalController.show)
   // Routes for contacts
   .get('/contacts', authMiddleware, adminMiddleware, ContactController.index)
-  .post('/contacts', authMiddleware, ContactController.create);
+  .post('/contacts', authMiddleware, ContactController.create)
 
-// Routes for bills
-routes.post('/bills', multerMiddleware.config, BillsController.create);
+  // Routes for bills
+  .post('/bills', multerMiddleware.config, BillsController.create);
 
 module.exports = routes;

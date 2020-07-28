@@ -1,5 +1,3 @@
-const db = require('../../database');
-
 const ContactModel = require('../models/ContactModel');
 
 const create = async (req, res) => {

@@ -6,36 +6,40 @@ const UsersModel = require('../models/UsersModel');
 const generateTokenJWT = require('../utils/generateTokenJWT');
 
 const create = async (req, res) => {
-  const id = uuidv4();
-
   const {
     name, surname, phone, password,
   } = req.body;
 
-  const passwordHash = await bcrypt.hash(password, 8);
-
-  const userData = {
-    name, surname, phone, password: passwordHash, id,
-  };
-
   try {
-    const user = await UsersModel.create(userData);
+    const user = await UsersModel.get();
 
-    delete user.password;
+    if (user) return res.status(400).json({ error: 'User already exists' });
 
-    const token = generateTokenJWT({ id: user.id });
+    const id = uuidv4();
 
-    return res.status(201).json({ user, token });
+    const passwordHash = await bcrypt.hash(password, 8);
+
+    const userData = {
+      name, surname, phone, password: passwordHash, id,
+    };
+
+    const userResponse = await UsersModel.create(userData);
+
+    delete userResponse.password;
+
+    const token = generateTokenJWT({ id: userResponse.id });
+
+    return res.status(201).json({ user: userResponse, token });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
 };
 
 const update = async (req, res) => {
-  const { status, name, surname } = req.body;
+  const { body: { status, name, surname }, userId } = req;
 
   try {
-    await UsersModel.update({ status, surname, name });
+    await UsersModel.update({ status, surname, name }, userId);
 
     return res.sendStatus(204);
   } catch (error) {

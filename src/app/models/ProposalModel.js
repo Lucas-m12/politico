@@ -6,4 +6,16 @@ const create = async (proposalData) => {
   return proposal;
 };
 
-module.exports = { create };
+const getAll = async () => {
+  const proposals = await db('proposal').select('*').where({ status: 1 });
+
+  return proposals;
+};
+
+const get = async (id) => {
+  const proposal = await db('proposal').select('*').where({ id }).first();
+
+  return proposal;
+};
+
+module.exports = { create, getAll, get };
