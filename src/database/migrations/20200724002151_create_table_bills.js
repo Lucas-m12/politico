@@ -1,5 +1,3 @@
-const { text } = require("express");
-
 exports.up = (knex) => knex.schema.createTable('bills', (table) => {
   table.bigIncrements().primary();
   table.text('title').notNullable();
