@@ -10,6 +10,18 @@ const index = async (req, res) => {
   }
 };
 
+const show = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const proposal = await ProposalModel.get(id);
+
+    return res.status(200).json(proposal);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
 const create = async (req, res) => {
   const { title, description } = req.body;
 
@@ -22,4 +34,4 @@ const create = async (req, res) => {
   }
 };
 
-module.exports = { index, create };
+module.exports = { index, create, show };

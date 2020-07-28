@@ -7,9 +7,15 @@ const create = async (proposalData) => {
 };
 
 const getAll = async () => {
-  const proposals = await db('proposal').select('*');
+  const proposals = await db('proposal').select('*').where({ status: 1 });
 
   return proposals;
 };
 
-module.exports = { create, getAll };
+const get = async (id) => {
+  const proposal = await db('proposal').select('*').where({ id }).first();
+
+  return proposal;
+};
+
+module.exports = { create, getAll, get };

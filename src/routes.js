@@ -27,6 +27,7 @@ routes.get('/', (req, res) => res.json({ ok: true }))
   // Routes for proposal
   .post('/proposal', authMiddleware, adminMiddleware, validationProposal, ProposalController.create)
   .get('/proposal', authMiddleware, ProposalController.index)
+  .get('/proposal/:id', authMiddleware, ProposalController.show)
   // Routes for contacts
   .get('/contacts', authMiddleware, adminMiddleware, ContactController.index)
   .post('/contacts', authMiddleware, ContactController.create)

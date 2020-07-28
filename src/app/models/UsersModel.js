@@ -12,8 +12,8 @@ const create = async (userData) => {
   return user;
 };
 
-const update = async (userData) => {
-  await db('users').update(userData);
+const update = async (userData, userId) => {
+  await db('users').update(userData).where({ id: userId });
 };
 
 module.exports = { get, create, update };
