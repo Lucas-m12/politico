@@ -34,4 +34,18 @@ const create = async (req, res) => {
   }
 };
 
-module.exports = { index, create, show };
+const update = async (req, res) => {
+  const { body: { title, description }, params: { id } } = req;
+
+  try {
+    await ProposalModel.update({ title, description }, { id });
+
+    return res.sendStatus(204);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = {
+  index, create, show, update,
+};
