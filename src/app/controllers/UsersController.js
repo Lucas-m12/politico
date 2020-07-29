@@ -11,7 +11,7 @@ const create = async (req, res) => {
   } = req.body;
 
   try {
-    const user = await UsersModel.get();
+    const user = await UsersModel.get({ phone });
 
     if (user) return res.status(400).json({ error: 'User already exists' });
 
