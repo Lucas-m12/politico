@@ -7,7 +7,10 @@ const ContactController = require('./app/controllers/ContactController');
 const BillsController = require('./app/controllers/BillsController');
 
 const validationUser = require('./app/middlewares/validations/users');
+const validationContact = require('./app/middlewares/validations/contact');
 const validationProposal = require('./app/middlewares/validations/proposal');
+const validationBill = require('./app/middlewares/validations/bill');
+
 const adminMiddleware = require('./app/middlewares/adminMiddleware');
 const authMiddleware = require('./app/middlewares/authMiddleware');
 
@@ -31,9 +34,11 @@ routes.get('/', (req, res) => res.json({ ok: true }))
   .put('/proposal/:id', authMiddleware, adminMiddleware, ProposalController.update)
   // Routes for contacts
   .get('/contacts', authMiddleware, adminMiddleware, ContactController.index)
-  .post('/contacts', authMiddleware, ContactController.create)
+  .post('/contacts', authMiddleware, validationContact, ContactController.create)
 
   // Routes for bills
-  .post('/bills', multerMiddleware.config, BillsController.create);
+  .post('/bills', authMiddleware, adminMiddleware, multerMiddleware.config, validationBill, BillsController.create)
+  .get('/bills', authMiddleware, BillsController.index)
+  .delete('/bills/:id', authMiddleware, adminMiddleware, BillsController.deleteBill);
 
 module.exports = routes;

@@ -1,9 +1,47 @@
-const db = require('../../database');
+const BillModel = require('../models/BillModel');
 
-const create = (req, res) => {
-  console.log(req.file);
+const create = async (req, res) => {
+  const { title, menu } = req.body;
+  const {
+    key, location: url = '',
+  } = req.file;
 
-  return res.json({ funcio: 'nou' });
+  const contactData = {
+    title,
+    menu,
+    document_key: key,
+    document_url: url,
+  };
+
+  try {
+    const bill = await BillModel.create(contactData);
+
+    return res.status(201).json(bill);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
 };
 
-module.exports = { create };
+const index = async (req, res) => {
+  try {
+    const bill = await BillModel.getAll();
+
+    return res.json(bill);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+const deleteBill = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    await BillModel.deleteBill(id);
+
+    return res.send();
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = { create, index, deleteBill };
