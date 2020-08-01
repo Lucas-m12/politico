@@ -5,7 +5,7 @@ const UsersModel = require('../models/UsersModel');
 
 const generateTokenJWT = require('../utils/generateTokenJWT');
 
-const create = async (req, res) => {
+const store = async (req, res) => {
   const {
     name, surname, phone, password,
   } = req.body;
@@ -47,4 +47,4 @@ const update = async (req, res) => {
   }
 };
 
-module.exports = { create, update };
+module.exports = { store, update };

@@ -1,6 +1,6 @@
 const BillModel = require('../models/BillModel');
 
-const create = async (req, res) => {
+const store = async (req, res) => {
   const { title, menu } = req.body;
   const {
     key, location: url = '',
@@ -32,7 +32,7 @@ const index = async (req, res) => {
   }
 };
 
-const deleteBill = async (req, res) => {
+const del = async (req, res) => {
   const { id } = req.params;
 
   try {
@@ -44,4 +44,4 @@ const deleteBill = async (req, res) => {
   }
 };
 
-module.exports = { create, index, deleteBill };
+module.exports = { store, index, del };

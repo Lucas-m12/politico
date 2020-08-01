@@ -5,6 +5,7 @@ const AuthController = require('./app/controllers/AuthController');
 const ProposalController = require('./app/controllers/ProposalController');
 const ContactController = require('./app/controllers/ContactController');
 const BillsController = require('./app/controllers/BillsController');
+const ProblemsController = require('./app/controllers/ProblemsController');
 
 const validationUser = require('./app/middlewares/validations/users');
 const validationContact = require('./app/middlewares/validations/contact');
@@ -21,24 +22,27 @@ const routes = Router();
 routes.get('/', (req, res) => res.json({ ok: true }))
 
   // Routes for users
-  .post('/users', validationUser.create, UsersController.create)
+  .post('/users', validationUser.create, UsersController.store)
   .patch('/users', authMiddleware, validationUser.update, UsersController.update)
 
   // Routes for authenticate
   .post('/auth', validationUser.auth, AuthController.auth)
 
   // Routes for proposal
-  .post('/proposal', authMiddleware, adminMiddleware, validationProposal, ProposalController.create)
+  .post('/proposal', authMiddleware, adminMiddleware, validationProposal, ProposalController.store)
   .get('/proposal', authMiddleware, ProposalController.index)
   .get('/proposal/:id', authMiddleware, ProposalController.show)
   .put('/proposal/:id', authMiddleware, adminMiddleware, ProposalController.update)
   // Routes for contacts
   .get('/contacts', authMiddleware, adminMiddleware, ContactController.index)
-  .post('/contacts', authMiddleware, validationContact, ContactController.create)
+  .post('/contacts', authMiddleware, validationContact, ContactController.store)
 
   // Routes for bills
-  .post('/bills', authMiddleware, adminMiddleware, multerMiddleware.config, validationBill, BillsController.create)
+  .post('/bills', authMiddleware, adminMiddleware, multerMiddleware.config, validationBill, BillsController.store)
   .get('/bills', authMiddleware, BillsController.index)
-  .delete('/bills/:id', authMiddleware, adminMiddleware, BillsController.deleteBill);
+  .delete('/bills/:id', authMiddleware, adminMiddleware, BillsController.del)
+
+  // Routes for notification problems
+  .post('/problems', authMiddleware, multerMiddleware.config, ProblemsController.store);
 
 module.exports = routes;

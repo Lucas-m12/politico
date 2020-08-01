@@ -22,7 +22,7 @@ const show = async (req, res) => {
   }
 };
 
-const create = async (req, res) => {
+const store = async (req, res) => {
   const { title, description } = req.body;
 
   try {
@@ -47,5 +47,5 @@ const update = async (req, res) => {
 };
 
 module.exports = {
-  index, create, show, update,
+  index, store, show, update,
 };

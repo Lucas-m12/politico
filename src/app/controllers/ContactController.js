@@ -1,6 +1,6 @@
 const ContactModel = require('../models/ContactModel');
 
-const create = async (req, res) => {
+const store = async (req, res) => {
   const { message } = req.body;
   const { userId } = req;
 
@@ -25,4 +25,4 @@ const index = async (req, res) => {
   }
 };
 
-module.exports = { create, index };
+module.exports = { store, index };
