@@ -11,14 +11,22 @@ const index = async (req, res) => {
 };
 
 const store = async (req, res) => {
-  const { key, location: url = '' } = req.file;
+  const {
+    body: {
+      category, coordinates, description, unnamed,
+    },
+    file: { key, location: url = '' },
+    userId,
+  } = req;
 
-  const { category, coordinates, description } = req.body;
+  const problemData = unnamed ? {
+    image_key: key, image_url: url, category, coordinates, description,
+  } : {
+    image_key: key, image_url: url, category, coordinates, description, id_user: userId,
+  };
 
   try {
-    const problem = await ProblemsModel.create({
-      image_key: key, image_url: url, category, coordinates, description,
-    });
+    const problem = await ProblemsModel.create(problemData);
 
     return res.status(201).json(problem);
   } catch (error) {
@@ -26,4 +34,16 @@ const store = async (req, res) => {
   }
 };
 
-module.exports = { index, store };
+const del = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    await ProblemsModel.del({ id });
+
+    return res.sendStatus(204);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+module.exports = { index, store, del };

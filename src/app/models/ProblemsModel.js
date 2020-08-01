@@ -12,4 +12,8 @@ const getAll = async () => {
   return problems;
 };
 
-module.exports = { create, getAll };
+const del = async (filterDelete) => {
+  await db('problems').delete('*').where(filterDelete);
+};
+
+module.exports = { create, getAll, del };
