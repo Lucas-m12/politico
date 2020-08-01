@@ -43,6 +43,7 @@ routes.get('/', (req, res) => res.json({ ok: true }))
   .delete('/bills/:id', authMiddleware, adminMiddleware, BillsController.del)
 
   // Routes for notification problems
+  .get('/problems', authMiddleware, ProblemsController.index)
   .post('/problems', authMiddleware, multerMiddleware.config, ProblemsController.store);
 
 module.exports = routes;

@@ -6,4 +6,10 @@ const create = async (problemsData) => {
   return problem;
 };
 
-module.exports = { create };
+const getAll = async () => {
+  const problems = await db('problems').select('*');
+
+  return problems;
+};
+
+module.exports = { create, getAll };

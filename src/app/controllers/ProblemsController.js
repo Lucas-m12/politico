@@ -1,5 +1,15 @@
 const ProblemsModel = require('../models/ProblemsModel');
 
+const index = async (req, res) => {
+  try {
+    const problems = await ProblemsModel.getAll();
+
+    return res.status(200).json(problems);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
 const store = async (req, res) => {
   const { key, location: url = '' } = req.file;
 
@@ -16,4 +26,4 @@ const store = async (req, res) => {
   }
 };
 
-module.exports = { store };
+module.exports = { index, store };
