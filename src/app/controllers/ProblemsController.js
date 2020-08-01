@@ -1,10 +1,26 @@
 const ProblemsModel = require('../models/ProblemsModel');
 
 const index = async (req, res) => {
+  const { page = 1 } = req.query;
+
   try {
-    const problems = await ProblemsModel.getAll();
+    const { count, problems } = await ProblemsModel.getAll(page);
+
+    res.header('X-Total-Count', count['count(*)']);
 
     return res.status(200).json(problems);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+const show = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const problem = await ProblemsModel.get(id);
+
+    return res.status(200).json(problem);
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
@@ -34,6 +50,10 @@ const store = async (req, res) => {
   }
 };
 
+const update = async (req, res) => {
+
+};
+
 const del = async (req, res) => {
   const { id } = req.params;
 
@@ -46,4 +66,6 @@ const del = async (req, res) => {
   }
 };
 
-module.exports = { index, store, del };
+module.exports = {
+  index, show, store, update, del,
+};
