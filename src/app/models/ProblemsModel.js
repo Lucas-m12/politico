@@ -1,4 +1,7 @@
+const aws = require('aws-sdk');
 const db = require('../../database');
+
+const s3 = new aws.S3();
 
 const create = async (problemsData) => {
   const [problem] = await db('problems').insert(problemsData).returning('*');
@@ -32,7 +35,18 @@ const get = async (id) => {
 };
 
 const del = async (filterDelete) => {
-  await db('problems').delete('*').where(filterDelete);
+  const keyBD = await db('problems').select('image_key').where({ id: filterDelete });
+  const keyPosition = keyBD[0];
+  const key = keyPosition.image_key;
+
+  const problems = await db('problems').delete('*').where({ id: filterDelete });
+
+  s3.deleteObject({
+    Bucket: 'upload-document-test',
+    Key: key,
+  }).promise();
+
+  return problems;
 };
 
 module.exports = {
