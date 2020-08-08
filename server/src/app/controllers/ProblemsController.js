@@ -58,7 +58,7 @@ const del = async (req, res) => {
   const { id } = req.params;
 
   try {
-    await ProblemsModel.del(id);
+    await ProblemsModel.del({ id });
 
     return res.sendStatus(204);
   } catch (error) {
